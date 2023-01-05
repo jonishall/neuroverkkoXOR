@@ -1,0 +1,1 @@
+neuroverkkoXOR.o: ../neuroverkkoXOR.cpp
