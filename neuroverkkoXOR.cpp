@@ -3,7 +3,7 @@
 // Author      : joni
 // Version     :
 // Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : neural network that calculates XOR
 //============================================================================
 
 #include <iostream>
@@ -48,10 +48,10 @@ int main() {
 			for(int x2=0;x2<2;x2++){
 				float o1=w11*x1+w21*x2+c1;					//hidden layer ylempi
 				float o2=w12*x1+w22*x2+c2;					//hidden layer alempi
-				float o=wa*sigma(o1)+wb*sigma(o2)+c3;		//output
-				float doutput=+(float)(x1^x2)-sigma(o);
+				float o=wa*sigma(o1)+wb*sigma(o2)+c3;		//output ennen sigmoidia
+				float doutput=+(float)(x1^x2)-sigma(o);		// partial loss / partial sigma(o)
 				dw11+=doutput*dsigma(o)*wa*dsigma(o1)*x1;   // partial loss / partial dw11
-				dw21+=doutput*dsigma(o)*wa*dsigma(o1)*x2;
+				dw21+=doutput*dsigma(o)*wa*dsigma(o1)*x2;   // ja sama muille
 				dw12+=doutput*dsigma(o)*wb*dsigma(o2)*x1;
 				dw22+=doutput*dsigma(o)*wb*dsigma(o2)*x2;
 				dwa +=doutput*dsigma(o)*sigma(o1);
@@ -59,11 +59,11 @@ int main() {
 				dc1 +=doutput*dsigma(o)*wa*dsigma(o1);
 				dc2 +=doutput*dsigma(o)*wb*dsigma(o2);
 				dc3 +=doutput*dsigma(o);
-				l   +=loss(x1,x2,o);
+				l   +=loss(x1,x2,o);			//lasketaan kokonais loss kierroksittain
 
 			}
 		float lr=6;
-		w11+=lr*dw11;
+		w11+=lr*dw11;			//päivitetään painot ja vakiot
 		w12+=lr*dw12;
 		w21+=lr*dw21;
 		w22+=lr*dw22;
@@ -75,7 +75,7 @@ int main() {
 
 		}
 
-		cout << l<<endl;
+		cout << l<<endl;	//printataan mikä oli kierroksen virhe
 
 
 	}
